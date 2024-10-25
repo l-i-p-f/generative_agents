@@ -46,6 +46,21 @@ Again, the environment is implemented as a Django project, and as such, you will
 
 Then, on your favorite browser, go to [http://localhost:8000/](http://localhost:8000/). If you see a message that says, "Your environment server is up and running," your server is running properly. Ensure that the environment server continues to run while you are running the simulation, so keep this command-line tab open! (Note: I recommend using either Chrome or Safari. Firefox might produce some frontend glitches, although it should not interfere with the actual simulation.)
 
+
+(Optional) Start the embedding server to get local embedding service. By default, we offer 'BAAI/bge-m3' embedding model with 'http://localhost:5000/v1/embeddings' api. To do this, first navigate to `reveie/backend_server` (this is where `embedding_service.py` is located) in your command line. Then run the following command:
+
+```PYTHON
+python embedding_service.py
+```
+
+Then, you can `post` to `http://localhost:5000/v1/embeddings` with request body:
+```json
+{
+	"input": "hello embedding"
+}
+```
+Finally, you will get the standard openai embedding response.
+
 ### Step 2. Starting the Simulation Server
 Open up another command line (the one you used in Step 1 should still be running the environment server, so leave that as it is). Navigate to `reverie/backend_server` and run `reverie.py`.
 
