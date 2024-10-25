@@ -100,9 +100,9 @@ def ollama_api_request(prompt, api_parameter):
         response = requests.post(api_parameter["url"], json=data).json()
         text = response["response"]
         return text
-    except (Exception,):
+    except Exception as e:
         err_msg = "api请求响应过程异常"
-        print(err_msg)
+        print(err_msg, e)
         return err_msg
 
 
@@ -164,6 +164,21 @@ def get_embedding(text, model="text-embedding-ada-002"):
         text = "this is blank"
     return openai.Embedding.create(
         input=[text], model=model)['data'][0]['embedding']
+
+
+def get_embedding_from_local(text, model=None):
+    import requests
+    text = text.replace("\n", " ")
+    if not text:
+        text = "this is blank"
+    if not model:
+        model = embed_model_name
+    try:
+        response = requests.post(embed_url, json={"input": [text], "model": model}).json()
+        embedding = response['data'][0]['embedding']
+    except Exception as e:
+        raise e
+    return embedding
 
 
 if __name__ == '__main__':
